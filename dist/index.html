@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Reverse Engineering Provenance</title>
+    
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  </head>
+  <body>
+    
+    
+    <div id="state"></div>
+      <button id="increase">Add</button>
+      <button id="decrease">Subtract</button>
+      <button id="multiply">Multiply</button>
+      <button id="divide">Divide</button>
+    <div id="vis"></div>
+  
+
+    <p>Make Comment:</p>
+    <input type="text" id="n1"/>
+    <input type="text" id="n2"/>
+    <input type="button"  onclick="makeComment();" value="Update"/>
+
+    <p>Jump:</p>
+    <input type="text" id="n3"/>
+    <input type="button"  onclick="Jump();" value="Update"/>
+
+    <p>Set Color:</p>
+    <input type="text" id="n4"/>
+    <input type="text" id="n5"/>
+    <input type="button"  onclick="SetColor();" value="Update"/>
+
+    
+    <script>
+      function makeComment() {
+          var method = "MakeComm";
+          var request = new XmlRpcRequest("http://localhost:1337/RPC2", method);
+          request.addParam(document.getElementById("n1").value);
+          request.addParam(document.getElementById("n2").value);
+          var response = request.send();
+          // alert(response.parseXML());
+      }
+      function Jump() {
+          var method = "Jump";
+          var request = new XmlRpcRequest("http://localhost:1337/RPC2", method);
+          request.addParam(document.getElementById("n3").value);
+          var response = request.send();
+          // alert(response.parseXML());
+      }
+      function SetColor() {
+          var method = "SetColor";
+          var request = new XmlRpcRequest("http://localhost:1337/RPC2", method);
+          request.addParam(document.getElementById("n4").value);
+          request.addParam(document.getElementById("n5").value);
+          var response = request.send();
+          // alert(response.parseXML());
+      }
+
+    </script>
+
+  <script type="text/javascript" src="bundle.js"></script></body>
+
+  <script>
+    (function () {
+      var isChrome = /Chrome/.test(navigator.userAgent) && /Google Inc/.test(navigator.vendor);
+      if (!isChrome) {
+        alert('This application was designed to be used in Google Chrome.\nRunning the application in other browsers might result in performance issues or other misbehavior.');
+      }
+    })();
+  </script>
+
+</html>
